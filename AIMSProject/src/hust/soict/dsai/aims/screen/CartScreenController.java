@@ -11,9 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 
 public class CartScreenController {
     private Cart cart;
@@ -82,7 +82,7 @@ public class CartScreenController {
     void btnRemovePressed(ActionEvent event) {
         Media media = tblMedia.getSelectionModel().getSelectedItem();
         cart.removeMedia(media);
-        costLabel.setText(cart.totalCost() + " $");
+        costLabel.setText(Math.round(cart.totalCost()*100.0)/100.0 + " $");
     }
 
     @FXML
@@ -109,7 +109,7 @@ public class CartScreenController {
         );
         tblMedia.setItems(this.cart.getItemsOrdered());
 
-        costLabel.setText(cart.totalCost() + "$");
+        costLabel.setText(Math.round(cart.totalCost()*100.0)/100.0 + "$");
 
         btnPlay.setVisible(false);
         btnRemove.setVisible(false);

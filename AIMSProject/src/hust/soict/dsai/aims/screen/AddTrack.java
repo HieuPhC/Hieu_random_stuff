@@ -1,45 +1,50 @@
 package hust.soict.dsai.aims.screen;
 
-import java.awt.*;
-import java.io.IOException;
-
 import javax.swing.JFrame;
 
-import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.media.CompactDisc;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+public class AddTrack extends JFrame{
 
-public class CartScreen extends JFrame{
-    private Cart cart;
+    private static CompactDisc CD;
 
-    public CartScreen(Cart cart) {
+    public static void main(String[] args) {
+        new AddTrack(CD);
+    }
+
+    public AddTrack(CompactDisc CD) {
+
         super();
 
-        this.cart = cart;
-        this.setSize(1024,768);;
+        AddTrack.CD = CD;
 
         JFXPanel fxPanel = new JFXPanel();
         this.add(fxPanel);
 
-        this.setTitle("Cart");
+        this.setTitle("Add Tracks");
+        this.setSize(638, 300);
         this.setVisible(true);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                try{
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("cart.fxml"));
-                    CartScreenController controller = new CartScreenController(cart);
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("addTracks.fxml"));
+
+                    AddTrackScreenController controller = new AddTrackScreenController(CD);
                     loader.setController(controller);
                     Parent root = loader.load();
                     fxPanel.setScene(new Scene(root));
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+
     }
+
 }
