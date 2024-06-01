@@ -3,12 +3,12 @@ package hust.soict.dsai.aims.screen;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.exception.PlayerException;
 
 import javax.naming.LimitExceededException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.PublicKey;
 
 public class MediaStore extends JPanel {
     private Media media;
@@ -29,8 +29,13 @@ public class MediaStore extends JPanel {
         JButton addToCartButton = new JButton("Add to cart");
         addToCartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String message = String.valueOf(cart.addMedia(media));
-                JOptionPane.showMessageDialog(null,message);
+                String message = null;
+                try {
+                    message = String.valueOf(cart.addMedia(media));
+                    JOptionPane.showMessageDialog(null,message);
+                } catch (LimitExceededException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         container.add(addToCartButton);
@@ -44,22 +49,25 @@ public class MediaStore extends JPanel {
                     dialog.setTitle(media.getTitle());
                     dialog.setSize(500, 300);
 
-                    String mediaInfo = ((Playable) media).play();
-                    JTextArea textArea = new JTextArea(mediaInfo);
-                    textArea.setEditable(false);
-                    textArea.setOpaque(false);
-                    textArea.setFont(new Font(title.getFont().getName(),Font.PLAIN, 30));
-                    textArea.setBorder(BorderFactory.createEmptyBorder());
-                    add(textArea, BorderLayout.CENTER);
+                    String mediaInfo = null;
+                    try {
+                        mediaInfo = ((Playable) media).play();
+                        JTextArea textArea = new JTextArea(mediaInfo);
+                        textArea.setEditable(false);
+                        textArea.setOpaque(false);
+                        textArea.setFont(new Font(title.getFont().getName(),Font.PLAIN, 30));
+                        textArea.setBorder(BorderFactory.createEmptyBorder());
+                        add(textArea, BorderLayout.CENTER);
 
-//                    textArea.setVerticalAlignment(JLabel.CENTER);
-//                    textArea.setHorizontalAlignment(JLabel.CENTER);
-                    JScrollPane scrollPane = new JScrollPane(textArea);
-                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-                    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                        JScrollPane scrollPane = new JScrollPane(textArea);
+                        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-                    dialog.add(scrollPane);
-                    dialog.setVisible(true);
+                        dialog.add(scrollPane);
+                        dialog.setVisible(true);
+                    } catch (PlayerException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
             container.add(playButton);

@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import hust.soict.dsai.aims.cart.Cart;
-import hust.soict.dsai.aims.media.Book;
-import hust.soict.dsai.aims.media.CompactDisc;
-import hust.soict.dsai.aims.media.DigitalVideoDisc;
-import hust.soict.dsai.aims.media.Disc;
-import hust.soict.dsai.aims.media.Media;
-import hust.soict.dsai.aims.media.Track;
+import hust.soict.dsai.aims.media.*;
+import hust.soict.dsai.exception.PlayerException;
+
+import javax.naming.LimitExceededException;
+import javax.swing.*;
 
 public class Store {
     private static ArrayList<Media> itemsInStore = new ArrayList<Media>();
@@ -76,11 +75,10 @@ public class Store {
         return;
     }
 
-	public void addToCart(Cart c) {
+	public void addToCart(Cart c) throws LimitExceededException {
 		Scanner input = new Scanner(System.in);
         System.out.println("Please enter the media name you want to add");
         String title = input.nextLine();
-        
 
         for (Media i : itemsInStore){
             if (i.isMatch(title)) {
@@ -162,47 +160,35 @@ public class Store {
 
 		Scanner input = new Scanner(System.in);
 		int selected = input.nextInt();
-        
 
 		if (selected == 1) {
             addMedia();
-            return;
 		}
 		else if (selected == 2) {
             removeMedia();
-            return;
 		}
-
 		else {
-		    return;
+		    System.out.println("Invalid input");
 		}
     }
 
-	public void playMedia() {
-		Scanner input = new Scanner(System.in);
+	public void playMedia() throws PlayerException {
+        Scanner input = new Scanner(System.in);
         System.out.println("Please enter the media name you want to play");
         String title = input.nextLine();
-		
-        for (Media i : itemsInStore){
-            if (i.isMatch(title)) {
-				if (i instanceof DigitalVideoDisc) {
-					((DigitalVideoDisc)i).play();
-					return;
-				}
-				else if (i instanceof CompactDisc) {
-					((CompactDisc)i).play();
-					return;
-				}
-				else {
-					System.out.println("The media you entered cannot be played.");
-					return;
-				}
-			}
-		}
-		System.out.println("Nothing has been played. Please recheck the name you entered.");
-	}
-
-    public void getDetail(Cart c) {
+        for (Media i : itemsInStore) {
+                if (i.isMatch(title)) {
+                    if(i instanceof Playable){
+                            ((Playable) i).play();
+                    } else {
+                        System.out.println("The media you entered cannot be played.");
+                        return;
+                    }
+                }
+            }
+        System.out.println("Nothing has been played. Please recheck the name you entered.");
+    }
+    public void getDetail(Cart c) throws LimitExceededException, PlayerException {
 		Scanner input = new Scanner(System.in);
         System.out.println("Please enter the media name you want to explore more");
         String title = input.nextLine();
@@ -243,8 +229,7 @@ public class Store {
                 }
             }        
         }
-        System.out.println("Please recheck the name you've entered.");       
-        return;
+        System.out.println("Please recheck the name you've entered.");
     }
 
     public ArrayList<Media> getItemsInStore(){

@@ -3,6 +3,10 @@ package hust.soict.dsai.aims;
 import hust.soict.dsai.aims.cart.*;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.store.*;
+import hust.soict.dsai.exception.PlayerException;
+
+import javax.naming.LimitExceededException;
+import javax.swing.*;
 import java.util.*;
 
 public class Aims {
@@ -10,7 +14,7 @@ public class Aims {
 	static Cart anOrder = new Cart();
 	static Scanner input = new Scanner(System.in);
 
-	public static void showMenu() {
+	public static void showMenu() throws PlayerException, LimitExceededException {
 		System.out.println("");
 		System.out.println("AIMS: ");
 		System.out.println("--------------------------------");
@@ -21,27 +25,23 @@ public class Aims {
 		System.out.println("--------------------------------");
 		System.out.println("Please choose a number: 0-1-2-3");
 		int selected = input.nextInt();
-
-		if (selected == 1) {
-			aStore.print();
-			storeMenu();
-			showMenu();
-		}
-		else if (selected == 2) {
-			aStore.update();
-			showMenu();
-		}
-		else if (selected == 3) {
-			anOrder.print();
-			cartMenu();
-			showMenu();
-		}
-		else {
+        if (selected == 1) {
+            aStore.print();
+            storeMenu();
+            showMenu();
+        } else if (selected == 2) {
+            aStore.update();
+            showMenu();
+        } else if (selected == 3) {
+            anOrder.print();
+            cartMenu();
+            showMenu();
+        } else {
 			return;
-		}
-	}
+        }
+    }
 
-	public static void storeMenu() {
+	public static void storeMenu() throws PlayerException, LimitExceededException {
 		System.out.println("");
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
@@ -52,31 +52,26 @@ public class Aims {
 		System.out.println("0. Exit");
 		System.out.println("--------------------------------");
 		System.out.println("Please choose a number: 0-1-2-3-4");
+			int selected = input.nextInt();
+			if (selected == 1) {
+				aStore.getDetail(anOrder);
+				storeMenu();
+			} else if (selected == 2) {
+				aStore.addToCart(anOrder);
+				storeMenu();
+			} else if (selected == 3) {
+				aStore.playMedia();
+				storeMenu();
+			} else if (selected == 4) {
+				anOrder.print();
+				cartMenu();
+				storeMenu();
+			} else {
+				return;
+			}
+    }
 
-		int selected = input.nextInt();
-		if (selected == 1) {
-			aStore.getDetail(anOrder);
-			storeMenu();
-		}
-		else if (selected == 2) {
-			aStore.addToCart(anOrder);
-			storeMenu();
-		}
-		else if (selected == 3) {
-			aStore.playMedia();
-			storeMenu();
-		}
-		else if (selected == 4) {
-			anOrder.print();
-			cartMenu();
-			storeMenu();
-		}
-		else {
-			return;
-		}
-	}
-
-	public static void cartMenu() {
+	public static void cartMenu() throws PlayerException {
 		System.out.println("");
 		System.out.println("Options: ");
 		System.out.println("--------------------------------");
@@ -90,33 +85,28 @@ public class Aims {
 		System.out.println("Please choose a number: 0-1-2-3-4-5");
 
 		int selected = input.nextInt();
-		if (selected == 1) {
-			anOrder.filterItems();
-			cartMenu();
-		}
-		else if (selected == 2) {
-			anOrder.sortItems();
-			cartMenu();
-		}
-		else if (selected == 3) {
-			anOrder.removeMedia();
-			cartMenu();
-		}
-		else if (selected == 4) {
-			anOrder.playMedia();
-			cartMenu();
-		}
-		else if (selected == 5) {
-			System.out.println("An order has been created. The cart will now be emptied.");
-			anOrder.empty();
-			cartMenu();
-		}
-		else {
-			return;
-		}
-	}
+        if (selected == 1) {
+            anOrder.filterItems();
+            cartMenu();
+        } else if (selected == 2) {
+            anOrder.sortItems();
+            cartMenu();
+        } else if (selected == 3) {
+            anOrder.removeMedia();
+            cartMenu();
+        } else if (selected == 4) {
+            anOrder.playMedia();
+            cartMenu();
+        } else if (selected == 5) {
+            System.out.println("An order has been created. The cart will now be emptied.");
+            anOrder.empty();
+            cartMenu();
+        } else {
+            return;
+        }
+    }
 
-	public static void main(String[] args) { // preadded 3 products to the store
+	public static void main(String[] args) throws LimitExceededException, PlayerException { // preadded 3 products to the store
 		DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King","Animation",
         "Roger Allers",87,19.95f);
         DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars","Science Fiction",
