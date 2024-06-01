@@ -40,7 +40,7 @@
                           <MenuItem mnemonicParsing="false" text="Add DVD" />
                           </items>
                         </Menu>
-                    <MenuItem mnemonicParsing="false" onAction="#close" text="View Store" />
+                    <MenuItem mnemonicParsing="false" text="View Store" />
                         <MenuItem mnemonicParsing="false" text="View Cart" />
                   </items>
                 </Menu>

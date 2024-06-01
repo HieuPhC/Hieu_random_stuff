@@ -1,10 +1,7 @@
 package hust.soict.dsai.aims.screen;
 
-import java.awt.*;
 import java.io.IOException;
-
 import javax.swing.JFrame;
-
 import hust.soict.dsai.aims.cart.Cart;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;

@@ -34,7 +34,8 @@ public class MediaStore extends JPanel {
                     message = String.valueOf(cart.addMedia(media));
                     JOptionPane.showMessageDialog(null,message);
                 } catch (LimitExceededException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -66,7 +67,8 @@ public class MediaStore extends JPanel {
                         dialog.add(scrollPane);
                         dialog.setVisible(true);
                     } catch (PlayerException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });

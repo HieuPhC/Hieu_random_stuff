@@ -143,10 +143,10 @@ public class StoreScreen extends JFrame {
         store.addMedia(book2);
 
 
-        CompactDisc cd1 = new CompactDisc("Adele - 30", "Music","Adele", 1500.98f);
-        Track track1CD1 = new Track("All Night Parking (interlude)", 161);
-        Track track2CD1 = new Track("To Be Loved", 403);
-        Track track3CD1 = new Track("Woman Like Me", 300);
+        CompactDisc cd1 = new CompactDisc("Fight Songs: The Music of Team Fortress 2", "Music","Valve Studio Orchestra", 1500.98f);
+        Track track1CD1 = new Track("Medic!", 2*60 +35);
+        Track track2CD1 = new Track("Intruder Alert", 60 + 54);
+        Track track3CD1 = new Track("Team Fortress 2", 76);
         cd1.addTrack(track1CD1);
         cd1.addTrack(track2CD1);
         cd1.addTrack(track3CD1);

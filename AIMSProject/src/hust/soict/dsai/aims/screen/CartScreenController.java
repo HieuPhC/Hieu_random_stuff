@@ -14,50 +14,22 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
 public class CartScreenController {
     private Cart cart;
-
     private Stage stage;
-
-    @FXML
-    private Pane pane;
-
-    @FXML
-    private Button btnPlay;
-
-    @FXML
-    private Button btnRemove;
-
-    @FXML
-    private TableColumn<Media, Float> colMediaCost;
-
-    @FXML
-    private TableColumn<Media, String> colMediaTitle;
-
-    @FXML
-    private TableColumn<Media, String> colMediacategory;
-
-    @FXML
-    private TableView<Media> tblMedia;
-
-    @FXML
-    private ToggleGroup filterCategory;
-
-    @FXML
-    private RadioButton radioBtnFilterId;
-
-    @FXML
-    private RadioButton radioBtnFilterTitle;
-
-    @FXML
-    private Label costLabel;
-
-    @FXML
-    private TextField tfFilter;
-
-    @FXML
-    private Button placeOrder;
+    @FXML private Pane pane;
+    @FXML private Button btnPlay;
+    @FXML private Button btnRemove;
+    @FXML private TableColumn<Media, Float> colMediaCost;
+    @FXML private TableColumn<Media, String> colMediaTitle;
+    @FXML private TableColumn<Media, String> colMediacategory;
+    @FXML private TableView<Media> tblMedia;
+    @FXML private ToggleGroup filterCategory;
+    @FXML private RadioButton radioBtnFilterId;
+    @FXML private RadioButton radioBtnFilterTitle;
+    @FXML private Label costLabel;
+    @FXML private TextField tfFilter;
+    @FXML private Button placeOrder;
 
     @FXML
     void placeOrderPressed(ActionEvent event) {
@@ -85,12 +57,6 @@ public class CartScreenController {
         costLabel.setText(Math.round(cart.totalCost()*100.0)/100.0 + " $");
     }
 
-    @FXML
-    private void close(){
-        stage = (Stage) pane.getScene().getWindow();;
-        stage.close();
-    }
-
     public CartScreenController(Cart cart) {
         super();
         this.cart = cart;
@@ -116,14 +82,12 @@ public class CartScreenController {
 
         tblMedia.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Media>() {
-
                     @Override
                     public void changed(ObservableValue<? extends Media> observable, Media oldValue, Media newValue) {
                         if (newValue != null) {
                             updateButtonBar(newValue);
                         }
                     }
-
                     private void updateButtonBar(Media media) {
                         btnRemove.setVisible(true);
                         if (media instanceof Playable) {
@@ -137,15 +101,12 @@ public class CartScreenController {
 
         tfFilter.textProperty().addListener(
                 new ChangeListener<String>() {
-
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                         showFilteredMedia(newValue);
                     }
-
                     private void showFilteredMedia(String keyword) {
                         FilteredList<Media> filteredList = new FilteredList<>(cart.getItemsOrdered());
-
                         if (!keyword.isEmpty() && radioBtnFilterId.isSelected()) {
                             filteredList.setPredicate(media -> {
                                 String idString = String.valueOf(media.getID());
@@ -162,6 +123,5 @@ public class CartScreenController {
                         tblMedia.setItems(filteredList);
                     }
                 });
-
     }
 }
